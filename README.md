@@ -2,6 +2,14 @@
 
 A modern vocabulary learning application built with Vite, React, TypeScript, Tailwind CSS 4, and shadcn/ui components.
 
+## Screenshots
+
+### Word Display
+![Word Display](https://github.com/user-attachments/assets/68d8ac6b-ccd0-4810-a722-a6ac018b1902)
+
+### Learning History
+![Learning History](https://github.com/user-attachments/assets/a61529de-a454-45d1-8d7c-149234db0c5e)
+
 ## Features
 
 - 🎲 Random English word fetcher from WordsAPI
@@ -66,21 +74,17 @@ The app will be available at `http://localhost:5173`
 
 **Note:** Without a valid API key, the app will show an error. You can:
 1. Get a free API key from [WordsAPI on RapidAPI](https://rapidapi.com/dpventures/api/wordsapi/)
-2. Or use the mock data mode for testing (see below)
+2. Or enable mock data mode for testing (see below)
 
 #### Testing without API Key
 
-To test the app functionality without an API key, you can temporarily modify `src/data-layer/api-client.ts` to return mock data:
+To test the app functionality without an API key, enable mock mode in your `.env` file:
 
-```typescript
-import { mockWordData, mockWordData2 } from './mock-data'
-
-export const grabRandomTerm = async (): Promise<VocabEntry> => {
-  // For testing without API key
-  await new Promise(resolve => setTimeout(resolve, 500)) // Simulate network delay
-  return Math.random() > 0.5 ? mockWordData : mockWordData2
-}
+```bash
+VITE_USE_MOCK=true
 ```
+
+This will use pre-defined sample words ("serendipity" and "ephemeral") for testing all features.
 
 ### Build
 
@@ -105,13 +109,15 @@ npm run preview
 
 ## Tech Stack
 
-- **Vite** - Build tool and dev server
+- **Vite 7** - Build tool and dev server
 - **React 19** - UI library
 - **TypeScript** - Type safety
-- **Tailwind CSS 4** - Utility-first CSS framework
-- **shadcn/ui** - Re-usable component patterns
+- **Tailwind CSS 4** - Utility-first CSS framework (using @tailwindcss/postcss)
+- **shadcn/ui patterns** - Re-usable component patterns
 - **Lucide React** - Icon library
 - **WordsAPI** - English dictionary and word data
+
+**Note:** This project uses Tailwind CSS 4.0 (latest) with the new PostCSS plugin architecture. Some packages may show peer dependency warnings with Vite 7, which are resolved using `--legacy-peer-deps`.
 
 ## Project Structure
 
