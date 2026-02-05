@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import type { VocabTrackerState } from '@/models/vocabulary'
 import { grabRandomTerm } from '@/data-layer/api-client'
 import { pullData, pushData, insertTerm, isDifferentDay } from '@/data-layer/persistence'
@@ -13,16 +13,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
-  useEffect(() => {
-    const checkAndFetch = async () => {
-      if (isDifferentDay(appState.lastGrabTime) && !appState.currentTerm) {
-        await fetchNewWord()
-      }
-    }
-    checkAndFetch()
-  }, [])
-
-  const fetchNewWord = async () => {
+  const fetchNewWord = useCallback(async () => {
     setLoading(true)
     setErrorMsg(null)
     
@@ -46,7 +37,16 @@ function App() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [appState.learnedTerms])
+
+  useEffect(() => {
+    const checkAndFetch = async () => {
+      if (isDifferentDay(appState.lastGrabTime) && !appState.currentTerm) {
+        await fetchNewWord()
+      }
+    }
+    checkAndFetch()
+  }, [appState.lastGrabTime, appState.currentTerm, fetchNewWord])
 
   const markAsKnown = () => {
     if (!appState.currentTerm) return
