@@ -1,4 +1,4 @@
-import { LearnedVocab, VocabTrackerState } from '@/models/vocabulary'
+import type { LearnedVocab, VocabTrackerState } from '@/models/vocabulary'
 
 const KEY = 'vocab_tracker_enran'
 

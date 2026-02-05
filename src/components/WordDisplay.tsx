@@ -1,4 +1,4 @@
-import { VocabEntry } from '@/models/vocabulary'
+import type { VocabEntry } from '@/models/vocabulary'
 import { Card, CardHeader, CardTitle, CardContent } from '@/ui/Card'
 import { Badge } from '@/ui/Badge'
 import { Volume2, Hash, TrendingUp } from 'lucide-react'

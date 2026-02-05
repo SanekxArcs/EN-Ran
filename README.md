@@ -64,6 +64,24 @@ npm run dev
 
 The app will be available at `http://localhost:5173`
 
+**Note:** Without a valid API key, the app will show an error. You can:
+1. Get a free API key from [WordsAPI on RapidAPI](https://rapidapi.com/dpventures/api/wordsapi/)
+2. Or use the mock data mode for testing (see below)
+
+#### Testing without API Key
+
+To test the app functionality without an API key, you can temporarily modify `src/data-layer/api-client.ts` to return mock data:
+
+```typescript
+import { mockWordData, mockWordData2 } from './mock-data'
+
+export const grabRandomTerm = async (): Promise<VocabEntry> => {
+  // For testing without API key
+  await new Promise(resolve => setTimeout(resolve, 500)) // Simulate network delay
+  return Math.random() > 0.5 ? mockWordData : mockWordData2
+}
+```
+
 ### Build
 
 Create a production build:

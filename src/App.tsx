@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { VocabEntry, VocabTrackerState } from '@/models/vocabulary'
+import type { VocabTrackerState } from '@/models/vocabulary'
 import { grabRandomTerm } from '@/data-layer/api-client'
 import { pullData, pushData, insertTerm, isDifferentDay } from '@/data-layer/persistence'
 import { WordDisplay } from '@/components/WordDisplay'
@@ -37,7 +37,12 @@ function App() {
       setAppState(newState)
       pushData(newState)
     } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : 'Failed to fetch word')
+      const errMessage = err instanceof Error ? err.message : 'Failed to fetch word'
+      if (errMessage.includes('Failed') || errMessage.includes('401') || errMessage.includes('403')) {
+        setErrorMsg('API key not configured. Please add your RapidAPI key to .env file (see README.md)')
+      } else {
+        setErrorMsg(errMessage)
+      }
     } finally {
       setLoading(false)
     }
