@@ -32,7 +32,7 @@ A modern vocabulary learning application built with Vite, React, TypeScript, Tai
 
 - Node.js 18+ 
 - npm or yarn
-- RapidAPI account with WordsAPI subscription
+- Mashape account with WordsAPI subscription
 
 ### Installation
 
@@ -52,16 +52,16 @@ npm install --legacy-peer-deps
 cp .env.example .env
 ```
 
-4. Add your RapidAPI key to `.env`:
+4. Add your Mashape API key to `.env`:
 ```
-VITE_RAPIDAPI_KEY=your_actual_api_key_here
+VITE_MASHAPE_KEY=your_actual_api_key_here
 ```
 
 To get an API key:
-- Go to [WordsAPI on RapidAPI](https://rapidapi.com/dpventures/api/wordsapi/)
-- Sign up/Login to RapidAPI
-- Subscribe to a plan (free tier available)
-- Copy your API key
+- Go to [WordsAPI on Mashape](https://www.wordsapi.com/)
+- Sign up/Login to get your API key
+- The API uses X-Mashape-Key header for authentication
+- Copy your API key to the .env file
 
 ### Development
 
@@ -73,7 +73,7 @@ npm run dev
 The app will be available at `http://localhost:5173`
 
 **Note:** Without a valid API key, the app will show an error. You can:
-1. Get a free API key from [WordsAPI on RapidAPI](https://rapidapi.com/dpventures/api/wordsapi/)
+1. Get an API key from [WordsAPI](https://www.wordsapi.com/)
 2. Or enable mock data mode for testing (see below)
 
 #### Testing without API Key

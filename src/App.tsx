@@ -30,7 +30,7 @@ function App() {
     } catch (err) {
       const errMessage = err instanceof Error ? err.message : 'Failed to fetch word'
       if (errMessage.includes('Failed') || errMessage.includes('401') || errMessage.includes('403')) {
-        setErrorMsg('API key not configured. Please add your RapidAPI key to .env file (see README.md)')
+        setErrorMsg('API key not configured. Please add your Mashape API key to .env file (see README.md)')
       } else {
         setErrorMsg(errMessage)
       }

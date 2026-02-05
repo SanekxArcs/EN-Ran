@@ -1,14 +1,12 @@
 import type { VocabEntry } from '@/models/vocabulary'
 import { mockWordData, mockWordData2 } from './mock-data'
 
-const BASE_URL = 'https://wordsapiv1.p.rapidapi.com/words/'
-const KEY = import.meta.env.VITE_RAPIDAPI_KEY || ''
-const HOST = 'wordsapiv1.p.rapidapi.com'
+const BASE_URL = 'https://wordsapiv1.p.mashape.com/words/'
+const KEY = import.meta.env.VITE_MASHAPE_KEY || ''
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true'
 
 const makeHeaders = () => ({
-  'X-RapidAPI-Key': KEY,
-  'X-RapidAPI-Host': HOST,
+  'X-Mashape-Key': KEY,
 })
 
 export const grabRandomTerm = async (): Promise<VocabEntry> => {
