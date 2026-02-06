@@ -2,14 +2,6 @@
 
 A modern vocabulary learning application built with Vite, React, TypeScript, Tailwind CSS 4, and shadcn/ui components.
 
-## Screenshots
-
-### Word Display
-![Word Display](https://github.com/user-attachments/assets/68d8ac6b-ccd0-4810-a722-a6ac018b1902)
-
-### Learning History
-![Learning History](https://github.com/user-attachments/assets/a61529de-a454-45d1-8d7c-149234db0c5e)
-
 ## Features
 
 - 🎲 Random English word fetcher from WordsAPI

@@ -1,7 +1,5 @@
 import type { LearnedVocab } from '@/models/vocabulary'
-import { Card, CardHeader, CardTitle, CardContent } from '@/ui/Card'
-import { Badge } from '@/ui/Badge'
-import { Clock, CheckCircle, XCircle } from 'lucide-react'
+import { Clock, CheckCircle } from 'lucide-react'
 
 interface HistoryListProps {
   history: LearnedVocab[]
