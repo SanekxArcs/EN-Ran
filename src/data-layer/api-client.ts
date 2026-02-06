@@ -1,13 +1,32 @@
 import type { VocabEntry } from '@/models/vocabulary'
 import { mockWordData, mockWordData2 } from './mock-data'
 
-const BASE_URL = 'https://wordsapiv1.p.mashape.com/words/'
+const BASE_URL = 'https://wordsapiv1.p.rapidapi.com/words/'
 const KEY = import.meta.env.VITE_MASHAPE_KEY || ''
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true'
 
 const makeHeaders = () => ({
-  'X-Mashape-Key': KEY,
+  'x-rapidapi-key': KEY,
+  'x-rapidapi-host': 'wordsapiv1.p.rapidapi.com'
 })
+
+const mapToVocabEntry = (apiData: any): VocabEntry => {
+  return {
+    term: apiData.word || '',
+    sound: typeof apiData.pronunciation === 'string' 
+      ? { all: apiData.pronunciation } 
+      : (apiData.pronunciation || {}),
+    commonness: apiData.frequency,
+    syllableData: apiData.syllables,
+    meanings: apiData.results?.map((res: any) => ({
+      text: res.definition,
+      category: res.partOfSpeech,
+      similar: res.synonyms,
+      opposite: res.antonyms,
+      samples: res.examples
+    })) || []
+  }
+}
 
 export const grabRandomTerm = async (): Promise<VocabEntry> => {
   // Use mock data if enabled
@@ -25,7 +44,8 @@ export const grabRandomTerm = async (): Promise<VocabEntry> => {
 
   if (!res.ok) throw new Error(`Failed: ${res.statusText}`)
 
-  return await res.json()
+  const data = await res.json()
+  return mapToVocabEntry(data)
 }
 
 export const grabTermInfo = async (term: string): Promise<VocabEntry> => {
@@ -43,5 +63,6 @@ export const grabTermInfo = async (term: string): Promise<VocabEntry> => {
 
   if (!res.ok) throw new Error(`Failed: ${res.statusText}`)
 
-  return await res.json()
+  const data = await res.json()
+  return mapToVocabEntry(data)
 }

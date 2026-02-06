@@ -5,7 +5,38 @@ const KEY = 'vocab_tracker_enran'
 export const pullData = (): VocabTrackerState => {
   try {
     const raw = localStorage.getItem(KEY)
-    if (raw) return JSON.parse(raw)
+    if (raw) {
+      const data = JSON.parse(raw)
+      
+      // Fix for previously unmapped data from WordsAPI
+      const fixEntry = (entry: any) => {
+        if (!entry) return entry
+        return {
+          term: entry.term || entry.word || '',
+          sound: entry.sound || (typeof entry.pronunciation === 'string' ? { all: entry.pronunciation } : entry.pronunciation),
+          commonness: entry.commonness !== undefined ? entry.commonness : entry.frequency,
+          syllableData: entry.syllableData || entry.syllables,
+          meanings: entry.meanings || entry.results?.map((res: any) => ({
+            text: res.text || res.definition,
+            category: res.category || res.partOfSpeech,
+            similar: res.similar || res.synonyms,
+            opposite: res.opposite || res.antonyms,
+            samples: res.samples || res.examples
+          })) || [],
+          whenFetched: entry.whenFetched,
+          userKnowsIt: entry.userKnowsIt
+        }
+      }
+
+      if (data.currentTerm) {
+        data.currentTerm = fixEntry(data.currentTerm)
+      }
+      if (data.learnedTerms) {
+        data.learnedTerms = data.learnedTerms.map(fixEntry)
+      }
+      
+      return data
+    }
   } catch (e) {
     console.error('Pull failed:', e)
   }

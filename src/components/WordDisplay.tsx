@@ -1,7 +1,5 @@
 import type { VocabEntry } from '@/models/vocabulary'
-import { Card, CardHeader, CardTitle, CardContent } from '@/ui/Card'
-import { Badge } from '@/ui/Badge'
-import { Volume2, Hash, TrendingUp } from 'lucide-react'
+import { TrendingUp } from 'lucide-react'
 
 interface WordDisplayProps {
   vocabData: VocabEntry
@@ -9,85 +7,79 @@ interface WordDisplayProps {
 
 export const WordDisplay = ({ vocabData }: WordDisplayProps) => {
   return (
-    <Card className="mb-6">
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-4xl capitalize bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-            {vocabData.term}
-          </CardTitle>
-          {vocabData.commonness && (
-            <Badge variant="info" className="flex items-center gap-1">
-              <TrendingUp className="w-4 h-4" />
-              Frequency: {vocabData.commonness.toFixed(2)}
-            </Badge>
+    <div className="mb-10 bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/40 overflow-hidden">
+      <div className="p-8 pb-4">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-start justify-between">
+            <h2 className="text-3xl font-black text-slate-900 tracking-tight capitalize">
+              {vocabData.term}
+            </h2>
+            {vocabData.commonness && (
+              <div className="bg-slate-50 text-[9px] font-black text-slate-400 px-2.5 py-1 rounded-lg border border-slate-100 flex items-center gap-1.5 mt-1">
+                <TrendingUp className="w-3 h-3" />
+                {vocabData.commonness.toFixed(1)}
+              </div>
+            )}
+          </div>
+          {vocabData.sound?.all && (
+            <p className="text-base font-mono text-indigo-500/80 font-medium">
+              {vocabData.sound.all}
+            </p>
           )}
         </div>
-      </CardHeader>
+      </div>
       
-      <CardContent className="space-y-6">
-        {vocabData.sound?.all && (
-          <div className="flex items-center gap-2 text-gray-600">
-            <Volume2 className="w-5 h-5 text-purple-600" />
-            <span className="text-lg font-mono">{vocabData.sound.all}</span>
-          </div>
-        )}
-        
-        {vocabData.syllableData && (
+      <div className="p-8 pt-4 space-y-10">
+        {vocabData.syllableData && vocabData.syllableData.list && (
           <div className="flex items-center gap-2">
-            <Hash className="w-5 h-5 text-purple-600" />
-            <span className="text-gray-700">
-              {vocabData.syllableData.count} syllable{vocabData.syllableData.count !== 1 ? 's' : ''}
+            <div className="flex gap-1">
+              {vocabData.syllableData.list.map((s, i) => (
+                <span key={i} className="bg-slate-50 text-slate-500 text-[10px] font-bold px-2 py-1 rounded-md border border-slate-100">
+                  {s}
+                </span>
+              ))}
+            </div>
+            <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest ml-2">
+              • {vocabData.syllableData.count} Syllables
             </span>
-            {vocabData.syllableData.list.length > 0 && (
-              <span className="text-gray-500 ml-2">
-                ({vocabData.syllableData.list.join(' · ')})
-              </span>
-            )}
           </div>
         )}
 
         {vocabData.meanings && vocabData.meanings.length > 0 && (
-          <div className="space-y-4 mt-6">
-            <h4 className="font-bold text-lg text-gray-800">Definitions:</h4>
+          <div className="space-y-10">
             {vocabData.meanings.map((meaning, idx) => (
-              <div key={idx} className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-4 border-l-4 border-purple-500">
-                {meaning.category && (
-                  <Badge variant="default" className="mb-2 text-xs">
-                    {meaning.category}
-                  </Badge>
-                )}
-                <p className="text-gray-800 mb-3">{meaning.text}</p>
+              <div key={idx} className="relative group">
+                <div className="flex items-center gap-3 mb-4">
+                  {meaning.category && (
+                    <span className="text-[8px] font-black uppercase tracking-[0.2em] text-indigo-500 bg-indigo-50 px-2 py-1 rounded-md">
+                      {meaning.category}
+                    </span>
+                  )}
+                  <div className="h-[1px] flex-1 bg-slate-50" />
+                </div>
+                
+                <p className="text-lg text-slate-700 leading-snug font-semibold mb-6">
+                  {meaning.text}
+                </p>
                 
                 {meaning.samples && meaning.samples.length > 0 && (
-                  <div className="mt-3 pl-4 border-l-2 border-purple-300">
-                    <p className="text-sm font-semibold text-gray-600 mb-1">Examples:</p>
+                  <div className="space-y-3 mb-6 bg-slate-50/30 p-4 rounded-2xl border border-slate-50">
                     {meaning.samples.map((example, exIdx) => (
-                      <p key={exIdx} className="text-sm text-gray-600 italic">
-                        "{example}"
+                      <p key={exIdx} className="text-sm text-slate-500 leading-relaxed italic border-l-2 border-indigo-100 pl-4 py-0.5">
+                        “{example}”
                       </p>
                     ))}
                   </div>
                 )}
                 
-                <div className="mt-3 flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-6">
                   {meaning.similar && meaning.similar.length > 0 && (
-                    <div>
-                      <span className="text-xs font-semibold text-green-700">Similar: </span>
-                      {meaning.similar.map((word, wIdx) => (
-                        <Badge key={wIdx} variant="success" className="mr-1 text-xs">
+                    <div className="flex flex-wrap gap-1.5 items-center">
+                      <span className="text-[8px] font-black uppercase tracking-widest text-slate-300 mr-2">Synonyms</span>
+                      {meaning.similar.slice(0, 3).map((word, wIdx) => (
+                        <span key={wIdx} className="text-[10px] font-bold text-slate-500 border-b-2 border-slate-100 pb-0.5 cursor-default hover:text-indigo-400 transition-colors">
                           {word}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-                  
-                  {meaning.opposite && meaning.opposite.length > 0 && (
-                    <div>
-                      <span className="text-xs font-semibold text-yellow-700">Opposite: </span>
-                      {meaning.opposite.map((word, wIdx) => (
-                        <Badge key={wIdx} variant="warning" className="mr-1 text-xs">
-                          {word}
-                        </Badge>
+                        </span>
                       ))}
                     </div>
                   )}
@@ -96,7 +88,7 @@ export const WordDisplay = ({ vocabData }: WordDisplayProps) => {
             ))}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

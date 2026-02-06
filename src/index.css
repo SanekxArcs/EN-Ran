@@ -1,16 +1,21 @@
 @import "tailwindcss";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@theme {
+  --font-inter: "Inter", system-ui, sans-serif;
+  --color-brand-50: oklch(0.97 0.01 251.58);
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-  padding: 2rem;
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+    font-family: var(--font-inter);
+    margin: 0;
+  }
+}
+
+/* Ensure margins and paddings are not reset globally in a way that breaks utilities */
+* {
+  border-color: var(--color-slate-100);
 }
 
 
