@@ -1,1 +1,158 @@
-# EN-Ran
+# EN-Ran - English Vocabulary Learning App
+
+A modern vocabulary learning application built with Vite, React, TypeScript, Tailwind CSS 4, and shadcn/ui components.
+
+## Screenshots
+
+### Word Display
+![Word Display](https://github.com/user-attachments/assets/68d8ac6b-ccd0-4810-a722-a6ac018b1902)
+
+### Learning History
+![Learning History](https://github.com/user-attachments/assets/a61529de-a454-45d1-8d7c-149234db0c5e)
+
+## Features
+
+- 🎲 Random English word fetcher from WordsAPI
+- 📅 Daily word tracking with automatic refresh
+- 📚 Complete word details including:
+  - Definitions with part of speech
+  - Pronunciation
+  - Syllable breakdown
+  - Synonyms and antonyms
+  - Usage examples
+  - Word frequency
+- 💾 Learning history with localStorage persistence
+- ✅ Mark words as "known" or save as "new"
+- 🎨 Beautiful gradient UI with Tailwind CSS 4
+- 📱 Responsive design
+
+## Setup
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- Mashape account with WordsAPI subscription
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/SanekxArcs/EN-Ran.git
+cd EN-Ran
+```
+
+2. Install dependencies:
+```bash
+npm install --legacy-peer-deps
+```
+
+3. Create a `.env` file in the root directory:
+```bash
+cp .env.example .env
+```
+
+4. Add your Mashape API key to `.env`:
+```
+VITE_MASHAPE_KEY=your_actual_api_key_here
+```
+
+To get an API key:
+- Go to [WordsAPI on Mashape](https://www.wordsapi.com/)
+- Sign up/Login to get your API key
+- The API uses X-Mashape-Key header for authentication
+- Copy your API key to the .env file
+
+### Development
+
+Run the development server:
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:5173`
+
+**Note:** Without a valid API key, the app will show an error. You can:
+1. Get an API key from [WordsAPI](https://www.wordsapi.com/)
+2. Or enable mock data mode for testing (see below)
+
+#### Testing without API Key
+
+To test the app functionality without an API key, enable mock mode in your `.env` file:
+
+```bash
+VITE_USE_MOCK=true
+```
+
+This will use pre-defined sample words ("serendipity" and "ephemeral") for testing all features.
+
+### Build
+
+Create a production build:
+```bash
+npm run build
+```
+
+Preview the production build:
+```bash
+npm run preview
+```
+
+## Usage
+
+1. Open the app - it will automatically fetch a random word for the day
+2. View comprehensive word details including definitions, examples, synonyms, etc.
+3. Click "I Already Know This" to mark the word as known and fetch a new one
+4. Click "Save & Continue" to save the word to your history without marking it as known
+5. View your learning history in the bottom section
+6. Words are automatically cached, and new words are fetched daily
+
+## Tech Stack
+
+- **Vite 7** - Build tool and dev server
+- **React 19** - UI library
+- **TypeScript** - Type safety
+- **Tailwind CSS 4** - Utility-first CSS framework (using @tailwindcss/postcss)
+- **shadcn/ui patterns** - Re-usable component patterns
+- **Lucide React** - Icon library
+- **WordsAPI** - English dictionary and word data
+
+**Note:** This project uses Tailwind CSS 4.0 (latest) with the new PostCSS plugin architecture. Some packages may show peer dependency warnings with Vite 7, which are resolved using `--legacy-peer-deps`.
+
+## Project Structure
+
+```
+src/
+├── components/       # React components
+│   ├── WordDisplay.tsx
+│   └── HistoryList.tsx
+├── ui/              # UI component library
+│   ├── Button.tsx
+│   ├── Card.tsx
+│   └── Badge.tsx
+├── data-layer/      # Data fetching and persistence
+│   ├── api-client.ts
+│   └── persistence.ts
+├── models/          # TypeScript interfaces
+│   └── vocabulary.ts
+├── helpers/         # Utility functions
+│   └── styling.ts
+├── App.tsx          # Main app component
+├── main.tsx         # Entry point
+└── index.css        # Global styles
+```
+
+## API Documentation
+
+This app uses [WordsAPI](https://www.wordsapi.com/docs/) to fetch word data. Key endpoints used:
+
+- `GET /words/?random=true` - Fetch a random word
+- `GET /words/{word}` - Get details for a specific word
+
+## License
+
+MIT
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
